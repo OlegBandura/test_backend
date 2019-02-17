@@ -83,7 +83,6 @@ test:
 #
 production:
   <<: *default
-  host: ec2-79-125-4-96.eu-west-1.compute.amazonaws.com
-  database: d6onei2r9nk20a
-  username: xkpjztwxzuneik
-  password: 071bdc508cd671f30c9b99dadbab88fac77224c78e303ff129e5a9a69f67b4db
+  database: message_production
+  username: message_user
+  password: <%= ENV['PRODUCT_API_DATABASE_PASSWORD'] %>
