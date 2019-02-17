@@ -83,8 +83,8 @@ test:
 #
 production:
   <<: *default
-  url: postgres://hpcsszujsnvwtj:d5c5c17b6b4aff873e1e5cae9333140da2ce07c9e367e6784c7318bb75eff3d1@ec2-54-75-245-94.eu-west-1.compute.amazonaws.com:5432/de6hp9gvd1tsj6
-  host: ec2-54-75-245-94.eu-west-1.compute.amazonaws.com
-  database: de6hp9gvd1tsj6
-  username: hpcsszujsnvwtj
-  password: d5c5c17b6b4aff873e1e5cae9333140da2ce07c9e367e6784c7318bb75eff3d1
+  host: ec2-54-247-124-154.eu-west-1.compute.amazonaws.com
+  url: postgres://bknccjuotenkzs:37a94e9f9bc382948321f0d7442d40ac8c75b21d124e9a40a39578ad676484c3@ec2-54-247-124-154.eu-west-1.compute.amazonaws.com:5432/d582vu76bhar3q
+  database: d582vu76bhar3q
+  username: bknccjuotenkzs
+  password: 37a94e9f9bc382948321f0d7442d40ac8c75b21d124e9a40a39578ad676484c3
