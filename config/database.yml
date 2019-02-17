@@ -84,5 +84,5 @@ test:
 production:
   <<: *default
   database: message_production
-  username: message
+  username: bknccjuotenkzs
   password: <%= ENV['MESSAGE_DATABASE_PASSWORD'] %>
