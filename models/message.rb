@@ -1,12 +1,8 @@
 class Message < ActiveRecord::Base
-  enum visits_remaining: { '1 hour': 0, '1 visit': 1 }
+  enum visits_remaining: { 'hour': 0, 'visit': 1 }
 
   def destroyed_after_time?
     visits_remaining.nil?
-  end
-
-  def destroyed_via_link_visits?
-    !destroyed_after_time?
   end
 
   def time_remaining
@@ -16,14 +12,11 @@ class Message < ActiveRecord::Base
     end
   end
 
-  private
-
-    def encrypt
-
+  def update_visit_count
+    if visits_remaining == 'visit' && count_times == 1
+      destroy
+    else
+      update(count_times: count_times - 1)
     end
-
-    def decrypt
-
-    end
-
+  end
 end
