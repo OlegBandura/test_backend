@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require_relative 'models/message'
-require 'pry'
 
 before do
   content_type 'application/json'
