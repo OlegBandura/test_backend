@@ -83,8 +83,7 @@ test:
 #
 production:
   <<: *default
-  host: ec2-54-247-124-154.eu-west-1.compute.amazonaws.com
-  url: postgres://htfulzcmfctcce:bede076c49e5124880f9ab58a56cd10f1bdded080646e4c90f9a8180db3a322e@ec2-23-21-171-25.compute-1.amazonaws.com:5432/de1j8fgopevkov
-  database: de1j8fgopevkov
-  username: htfulzcmfctcce
-  password: bede076c49e5124880f9ab58a56cd10f1bdded080646e4c90f9a8180db3a322e
+  host: ec2-79-125-4-96.eu-west-1.compute.amazonaws.com
+  database: d6onei2r9nk20a
+  username: xkpjztwxzuneik
+  password: 071bdc508cd671f30c9b99dadbab88fac77224c78e303ff129e5a9a69f67b4db
