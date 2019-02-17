@@ -26,13 +26,13 @@ default: &default
 
 development:
   <<: *default
-  database: message_development
+  database: product_api_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: task
+  #username: product_api
 
   # The password associated with the postgres role (username).
   #password:
@@ -60,7 +60,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: message_test
+  database: product_api_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -74,7 +74,7 @@ test:
 # On Heroku and other platform providers, you may have a full connection URL
 # available as an environment variable. For example:
 #
-  # DATABASE_URL="postgres://hpcsszujsnvwtj:d5c5c17b6b4aff873e1e5cae9333140da2ce07c9e367e6784c7318bb75eff3d1@ec2-54-75-245-94.eu-west-1.compute.amazonaws.com:5432/de6hp9gvd1tsj6"
+#   DATABASE_URL="postgres://myuser:mypass@localhost/somedatabase"
 #
 # You can use this database configuration with:
 #
@@ -83,6 +83,6 @@ test:
 #
 production:
   <<: *default
-  database: message_production
-  username: message_user
+  database: product_api_production
+  username: product_api
   password: <%= ENV['PRODUCT_API_DATABASE_PASSWORD'] %>
