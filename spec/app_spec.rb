@@ -1,76 +1,53 @@
 require_relative 'spec_helper'
+require 'rack/test'
 
-describe 'App' do
+describe 'app' do
+  include Rack::Test::Methods
 
-  it 'should create new message' do
-    visit '/'
-    fill_in 'text', with: 'My new awesome message'
-    select 'n link visits', from: 'destruction_option'
-    fill_in 'destruction_option_value', with: '1'
-    click_button 'Create message'
-    expect(page).to have_content 'My new awesome message'
+  def app
+    App.new
   end
 
-  context 'when message is destroyed after link visits' do
-    it 'should destroy message after one visit' do
-      visit '/'
-      fill_in 'text', with: 'My another awesome message'
-      select 'n link visits', from: 'destruction_option'
-      fill_in 'destruction_option_value', with: '1'
-      click_button 'Create message'
-      visit current_path
-      expect(page).to have_content 'My another awesome message'
-      visit current_path
-      expect(page).not_to have_content 'My another awesome message'
-    end
-
-    it 'should destroy message after n visits' do
-      n = 50
-      visit '/'
-      fill_in 'text', with: 'My another awesome message'
-      select 'n link visits', from: 'destruction_option'
-      fill_in 'destruction_option_value', with: n
-      click_button 'Create message'
-      n.times { visit current_path }
-      expect(page).to have_content 'My another awesome message'
-      visit current_path
-      expect(page).not_to have_content 'My another awesome message'
-    end
+  before do
+    DatabaseCleaner.clean
   end
 
-  context 'when message is destroyed after some time' do
-    it 'should destroy message after one hour' do
-      visit '/'
-      fill_in 'text', with: 'My yet another awesome message'
-      select 'n hours', from: 'destruction_option'
-      fill_in 'destruction_option_value', with: '1'
-      click_button 'Create message'
-      Timecop.freeze(DateTime.now + 59.minutes + 59.seconds) do
-        visit current_path
-        expect(page).to have_content 'My yet another awesome message'
+  describe '#show' do
+    context 'get message when 1 visit' do
+      let!(:message) do
+        Message.create(
+          text_message: 'test',
+          urlsafe: 'aabbcc',
+          visits_remaining: 'visit',
+          encryption_key: 'key',
+          count_times: 1
+        )
       end
-      Timecop.freeze(DateTime.now + 1.hour) do
-        visit current_path
-        expect(page).to have_content 'My yet another awesome message'
-      end
-    end
 
-    it 'should destroy message after one hour' do
-      n = 50
-      visit '/'
-      fill_in 'text', with: 'My yet another awesome message'
-      select 'n hours', from: 'destruction_option'
-      fill_in 'destruction_option_value', with: '1'
-      click_button 'Create message'
-      Timecop.freeze(DateTime.now + (n-1).hours + 59.minutes + 59.seconds) do
-        visit current_path
-        expect(page).to have_content 'My yet another awesome message'
-      end
-      Timecop.freeze(DateTime.now + n.hour) do
-        visit current_path
-        expect(page).to have_content 'My yet another awesome message'
+      it 'get message' do
+        get "/message/#{message.urlsafe}"
+        expect(JSON.parse(last_response.body)['id']).to eq message.id
+        expect(JSON.parse(last_response.body)['text_message']).to eq message.text_message
+        expect(JSON.parse(last_response.body)['urlsafe']).to eq message.urlsafe
+        expect(JSON.parse(last_response.body)['visits_remaining']).to eq message.visits_remaining
+        expect(JSON.parse(last_response.body)['encryption_key']).to eq message.encryption_key
+        expect(JSON.parse(last_response.body)['count_times']).to eq message.count_times
+        expect(Message.count).to eq 0
       end
     end
   end
 
+  describe '#create' do
+    it 'create new message' do
+      post '/message', params={
+        text_message: 'test',
+        urlsafe: 'aabbcc',
+        visits_remaining: 'visit',
+        encryption_key: 'key',
+        count_times: 1
+      }
+      expect(last_response.status).to eq 201
+      expect(Message.count).to eq 1
+    end
+  end
 end

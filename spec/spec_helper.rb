@@ -1,5 +1,7 @@
 require './app'
+require 'database_cleaner'
 
 RSpec.configure do |config|
-  config.gem "factory_bot"
 end
+
+DatabaseCleaner.strategy = :truncation
