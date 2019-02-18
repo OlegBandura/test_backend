@@ -8,4 +8,5 @@ gem 'pg'
 
 group :development, :test do
   gem 'rspec'
+  gem 'factory_bot'
 end
